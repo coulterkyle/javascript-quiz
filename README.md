@@ -13,10 +13,10 @@ Visit the website and the quiz will automatically generate.
 Test your knowledge of Javascript and see how you scored at the end!
 
     ```md
-    ![alt text](Assets/screenshots/Screenshot 2023-12-19 at 9.40.37 PM.png)
+    !(Assets/screenshots/Screenshot 2023-12-19 at 9.40.37 PM.png)
     ```
     ```md
-    ![alt text](Assets/screenshots/Screenshot 2023-12-19 at 9.42.54 PM.png)
+    !(Assets/screenshots/Screenshot 2023-12-19 at 9.42.54 PM.png)
     ```
 
 ## Credits
