@@ -1,15 +1,15 @@
 const questions = [
     {
-        question : "Inside which HTML element do we put the JavaScript?"
+        question: "Inside which HTML element do we put the JavaScript?",
         answers: [
-            { text: "<script>", correct: true},
-            { text: "<scripting>", correct: false},
-            { text: "<js>", correct: false},
-            { text: "<javascript>", correct: false},
+            { text: "&ltscript&gt", correct: true},
+            { text: "&ltscripting&gt", correct: false},
+            { text: "&ltjs&gt", correct: false},
+            { text: "&ltjavascript&gt", correct: false},
         ]
     },
     {
-        question : "How do you write 'Hello World' in an alert box?"
+        question: "How do you write 'Hello World' in an alert box?",
         answers: [
             { text: "alert('Hello World');", correct: true},
             { text: "msgBox('Hello World');", correct: false},
@@ -18,7 +18,7 @@ const questions = [
         ]
     },
     {
-        question : "How to write an IF statement for executing some code if 'i' is NOT equal to 5?"
+        question : "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
         answers: [
             { text: "if (i <> 5)", correct: false},
             { text: "if (i != 5", correct: true},
@@ -27,7 +27,7 @@ const questions = [
         ]
     },
     {
-        question : "How does a FOR loop start?"
+        question : "How does a FOR loop start?",
         answers: [
             { text: "for (i = 0; i <= 5)", correct: false},
             { text: "for i = 1 to 5", correct: false},
@@ -36,7 +36,7 @@ const questions = [
         ]
     },
     {
-        question : "How can you add a comment in a JavaScript?"
+        question : "How can you add a comment in a JavaScript?",
         answers: [
             { text: "Comment: This is a comment", correct: false},
             { text: "'This is a comment", correct: false},
@@ -45,7 +45,7 @@ const questions = [
         ]
     },
     {
-        question : "How do you round the number 7.25, to the nearest integer?"
+        question : "How do you round the number 7.25, to the nearest integer?",
         answers: [
             { text: "rnd(7.25)", correct: false},
             { text: "Math.rnd(7.25)", correct: false},
@@ -54,7 +54,7 @@ const questions = [
         ] 
     },
     {
-        question : "How do you find the number with the highest value of x and y?"
+        question : "How do you find the number with the highest value of x and y?",
         answers: [
             { text: "Math.ceil(x, y)", correct: false},
             { text: "Math.max(x, y)", correct: true},
@@ -63,7 +63,7 @@ const questions = [
         ] 
     },
     {
-        question : "Which event occurs when the user clicks on an HTML element?"
+        question : "Which event occurs when the user clicks on an HTML element?",
         answers: [
             { text: "onmouseover", correct: false},
             { text: "onclick", correct: true},
@@ -72,7 +72,7 @@ const questions = [
         ] 
     },
     {
-        question : "Which operator is used to assign a value to a variable?"
+        question : "Which operator is used to assign a value to a variable?",
         answers: [
             { text: "=", correct: true},
             { text: "*", correct: false},
@@ -81,7 +81,7 @@ const questions = [
         ] 
     },
     {
-        question : "What will the following code return: Boolean(10 > 9)"
+        question : "What will the following code return: Boolean(10 > 9)",
         answers: [
             { text: "true", correct: true},
             { text: "NaN", correct: false},
@@ -93,7 +93,7 @@ const questions = [
 ];
 
 const questionElement = document.getElementById("question");
-const answerbutton = document.getElementById("answer-buttons");
+const answerButtons = document.getElementById("answer-buttons");
 const nextButton = document.getElementById("next-btn");
 
 let currentQuestionIndex = 0;
@@ -102,11 +102,12 @@ let score = 0;
 function startQuiz (){
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.innerHTML = "Next"
+    nextButton.innerHTML = "Next";
     showQuestion();
 }
 
 function showQuestion(){
+    resetState();
     let currentQuestion = questions[currentQuestionIndex];
     let questionNo = currentQuestionIndex + 1;
     questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
@@ -115,6 +116,15 @@ function showQuestion(){
         const button = document.createElement("button");
         button.innerHTML = answer.text;
         button.classList.add("btn");
-        answerbutton.appendChild(button);
+        answerButtons.appendChild(button);
     });
 }
+
+function resetState(){
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild){
+        answerButtons.removeChild(answerButtons.firstChild);
+    }
+}
+
+startQuiz();
