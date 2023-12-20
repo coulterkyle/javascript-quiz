@@ -21,7 +21,7 @@ const questions = [
         question : "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
         answers: [
             { text: "if (i <> 5)", correct: false},
-            { text: "if (i != 5", correct: true},
+            { text: "if (i != 5)", correct: true},
             { text: "if i <> 5", correct: false},
             { text: "if i =! 5 then", correct: false},
         ]
@@ -39,8 +39,8 @@ const questions = [
         question : "How can you add a comment in a JavaScript?",
         answers: [
             { text: "Comment: This is a comment", correct: false},
-            { text: "'This is a comment", correct: false},
-            { text: "<!--This is a comment-->", correct: false},
+            { text: "'This is a comment'", correct: false},
+            { text: "This is a comment:>", correct: false},
             { text: "//This is a comment", correct: true},
         ]
     },
@@ -117,6 +117,10 @@ function showQuestion(){
         button.innerHTML = answer.text;
         button.classList.add("btn");
         answerButtons.appendChild(button);
+        if (answer.correct){
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener("click", selectAnswer)
     });
 }
 
@@ -126,5 +130,47 @@ function resetState(){
         answerButtons.removeChild(answerButtons.firstChild);
     }
 }
+
+function selectAnswer(e){
+    const selectedBtn = e.target;
+    const isCorrect = selectedBtn.dataset.correct === "true";
+    if (isCorrect){
+        selectedBtn.classList.add("correct");
+        score ++
+    } else {
+        selectedBtn.classList.add("incorrect");
+    }
+    Array.from(answerButtons.children).forEach(button => {
+        if(button.dataset.correct === "true"){
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";
+}
+
+function showScore(){
+    resetState();
+    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "Play Again?";
+    nextButton.style.display = "block";
+}
+
+function handleNextButton(){
+    currentQuestionIndex++;
+    if(currentQuestionIndex<questions.length){
+        showQuestion();
+    } else {
+        showScore();
+    }
+}
+
+nextButton.addEventListener("click", ()=>{
+    if (currentQuestionIndex < questions.length){
+        handleNextButton();
+    } else {
+        startQuiz();
+    }
+})
 
 startQuiz();
