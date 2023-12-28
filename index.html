@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="Assets/style.css">
+</head>
+
+<body>
+    <section class="welcome">
+        <h1 class="welcome-header">Welcome to the JavaScript Quiz</h1>
+        <div id="rules">
+            <pre>
+Try to answer the following code-related questions within the time limit.
+Keep in mind that incorrect answers will penalize your score/time by ten seconds!
+            </pre>
+        </div>
+        <button id="start">Start Quiz</button>
+    </section>
+
+    <main class="test">
+        <h1 class="quiz-header">JavaScript Quiz</h1>
+        <section class="content">
+            <div id="timer"></div>
+            <h2 id="question">Question:</h2>
+            <div id="answers">
+                <button class="answer-button">answer1</button>
+                <button class="answer-button">answer2</button>
+                <button class="answer-button">answer3</button>
+                <button class="answer-button">answer4</button>
+            </div>
+        </section>
+    </main>
+
+    <section class="record">
+        <h1 class="record-header">All done!</h1>
+        <h3>Enter your initals:</h3>
+        <input id="initals"></input>
+        <button id="submit-score">Submit</button>
+    </section>
+
+    <section class="scores">
+        <h1 class="scores-header">Scores:</h1>
+        <ol id="high-scores">
+            <li></li>
+        </ol>
+        <div id="end-buttons">
+            <button id="try-again">Try again?</button>
+            <button id="Clear">Clear scores</button>
+        </div>
+
+    </section>
+
+
+
+    <script src="Assets/script.js"></script>
+</body>
+
+</html>
