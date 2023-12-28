@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.welcome {
+    text-align: center;
+    margin-top: 300px;
+    display: none;
+}
+
+.content {
+    text-align: center;
+}
+
+.test {
+    display: none;
+    max-width: 600px;
+    margin: 100px auto 0;
+    border-radius: 10px;
+    padding: 30px;
+
+}
+
+.answer-button {
+    font-size: large;
+    font-weight: 600;
+    width: 100%;
+    border: 1px solid #222;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: left;
+    border-radius: 4px;
+}
+
+#submit-answer {
+    text-align: center;
+    justify-content: center;
+}
+
+.record {
+    display: none;
+    text-align: center;
+    margin: 200px auto 0;
+}
+
+.scores {
+    display: none;
+    text-align: center;
+    margin: 200px auto 0;
+}
+
