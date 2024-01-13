@@ -4,7 +4,7 @@
     background-color: white;
 }
 
-.welcome {
+#welcome {
     text-align: center;
     margin-top: 300px;
 }
@@ -13,13 +13,23 @@
     text-align: center;
 }
 
-.test {
-    display: none;
+#test {
     max-width: 600px;
     margin: 100px auto 0;
     border-radius: 10px;
     padding: 30px;
 
+}
+
+#quiz-clock{
+    margin-top: 10px;
+    margin-bottom: 10px; 
+    display: flex;
+    justify-content: center;
+}
+
+p{
+    margin-left: 5px;
 }
 
 .answer-button {
@@ -34,19 +44,20 @@
 }
 
 #submit-answer {
-    text-align: center;
     justify-content: center;
 }
 
 .record {
-    display: none;
     text-align: center;
     margin: 200px auto 0;
 }
 
 .scores {
-    display: none;
     text-align: center;
     margin: 200px auto 0;
+}
+
+.hide {
+    display: none;
 }
 
