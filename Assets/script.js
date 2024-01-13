@@ -124,10 +124,6 @@ function displayQuestions() {
         button.innerHTML = answer.text;
         button.classList.add("answer-button");
         answerButtons.appendChild(button);
-        // if (answer.correct){
-        //     button.dataset.correct = answer.correct;
-        // }
-        // button.addEventListener("click", selectAnswer)
     });
 }
 
