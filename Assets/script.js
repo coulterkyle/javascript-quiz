@@ -203,7 +203,7 @@ function endQuiz() {
     resetQuestion()
     let scoreBoard = (score * 10)
     let timescore = (59 - sec)
-    let playerScore = [scoreBoard, timescore]
+    let playerScore = {scoreBoard, timescore}
     displayQuestion.innerHTML = `All Done!\n You scored ${scoreBoard}% in ${timescore} seconds`
 
     let recordHeader = document.createElement('h3')
@@ -224,8 +224,11 @@ function endQuiz() {
     inputBox.appendChild(submitScore)
     submitScore.addEventListener('click', () => {
         var initials = recorder.value.trim();
-        // console.log(playerScore)
-        localStorage.setItem(initials, JSON.stringify(playerScore))
+        playerScore.initials = initials
+        console.log(initials,playerScore)
+        var previousScore = JSON.parse(localStorage.getItem("CodeQuiz") )|| []
+        previousScore.push(playerScore)
+        localStorage.setItem("CodeQuiz", JSON.stringify(previousScore))
         showScore()
     })
 }
@@ -236,6 +239,26 @@ function endQuiz() {
 function showScore() {
     quiz.classList.add('hide')
     scorePage.classList.remove('hide');
+    var OldScore = JSON.parse(localStorage.getItem("CodeQuiz")) || []
+    var previousScore = []
+    for(let i=0;i<OldScore.length;i++){
+        for(let j=0;j<OldScore.length-1;j++){
+            if(OldScore[i].scoreBoard > OldScore[j].scoreBoard){
+                let temp = OldScore[i]
+                OldScore[i] = OldScore[j]
+                OldScore[j] = temp
+            }
+        }
+    }
+    previousScore = OldScore
+    var highScores = document.getElementById("high-scores")
+    var htmlCode =""
+    for (i=0; i<previousScore.length; i++){
+        htmlCode += `<li>${previousScore[i].initials}</li><ol><li>ScoreBoard: ${previousScore[i].scoreBoard}</li>
+        <li>TimeScore: ${previousScore[i].timescore}</li></ol>`
+    }
+    console.log(previousScore)
+    highScores.innerHTML = htmlCode
     // var initialsForm = document.getElementById('initials');
     // var initials = initialsForm.value.trim();
     // console.log(initials)
