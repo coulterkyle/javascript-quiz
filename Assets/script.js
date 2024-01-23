@@ -94,9 +94,11 @@ const questions = [
 ];
 
 //sets global variables
-// let currentQuestionIndex = 0;
-// let score = 0;
-let playerScore = []
+let playerScore = [];
+let sec;
+let currentQuestionIndex = 0;
+let score = 0;
+let time;
 
 //names variables from elements of html
 const welcome = document.getElementById('welcome');
@@ -106,17 +108,19 @@ const displayQuestion = document.getElementById('question')
 const answerButtons = document.getElementById('answers')
 const inputBox = document.getElementById('input-box')
 const submitButton = document.getElementById('submit-answer')
-// const recordScore = document.getElementById('record')
-// const recordHeader = document.getElementById('record-header')
 const submitScore = document.getElementById('submit-score')
 const scorePage = document.getElementById('scores')
 const tryAgain = document.getElementById('try-again')
-let sec;
-let currentQuestionIndex = 0;
-let score = 0;
-let time;
+const seeScores = document.getElementById('show-scores')
+const clear = document.getElementById('clear')
+
 //event listener that calls the startQuiz function on 'click'
 startButton.addEventListener("click", startQuiz)
+
+seeScores.addEventListener("click", () => {
+    showScore()
+    welcome.classList.add('hide')
+})
 
 //starts quiz by revealing 'test', starts timer and displays questions
 function startQuiz() {
@@ -138,22 +142,17 @@ function setTimer() {
         document.getElementById('timer').innerHTML = sec;
         sec--;
         if (sec <= -1) {
-            endQuiz()
-          
-            // clearInterval(timer)
-            // endQuiz();
+            endQuiz();
         }
 
     }, 1000);
 };
-// setTimer()
 
 //function that produces question and answer buttons by cycling through the array
 function displayQuestions() {
-    // console.log(currentQuestionIndex)
     resetQuestion();
-    let currentQuestion = questions[currentQuestionIndex]
-    displayQuestion.innerHTML = currentQuestion.question
+    let currentQuestion = questions[currentQuestionIndex];
+    displayQuestion.innerHTML = currentQuestion.question;
 
     currentQuestion.answers.forEach(answer => {
         let button = document.createElement("button");
@@ -161,7 +160,7 @@ function displayQuestions() {
         button.classList.add("answer-button");
         answerButtons.appendChild(button);
     });
-    answerButtons.addEventListener('click', handleSubmit)
+    answerButtons.addEventListener("click", handleSubmit)
 
 }
 
@@ -171,111 +170,111 @@ function resetQuestion() {
     while (answerButtons.firstChild) {
         answerButtons.removeChild(answerButtons.firstChild);
     }
-}
-
-//event listener that calls the handle submit function
-// answerButtons.addEventListener('click', handleSubmit)
+};
 
 //function that increases the score if an answer is correct, subtracts time if incorrect and ends quiz
 //when the questions are completed
 function handleSubmit(event) {
-    var clickBtn = event.target.textContent
+    var clickBtn = event.target.textContent;
     if (clickBtn === questions[currentQuestionIndex].answerText) {
-        score++
+        score++;
     } else {
-        sec -= 10
+        sec -= 10;
     }
 
     if (currentQuestionIndex < 9) {
         currentQuestionIndex++;
         displayQuestions();
     } else {
-        clearInterval()
-        endQuiz()
+        clearInterval();
+        endQuiz();
     }
 }
 
 
-function endQuiz() {
-    // timer.classList.add('hide');
-    // recordScore.classList.remove('hide')
-    clearInterval(time)
-    resetQuestion()
-    let scoreBoard = (score * 10)
-    let timescore = (59 - sec)
-    let playerScore = {scoreBoard, timescore}
-    displayQuestion.innerHTML = `All Done!\n You scored ${scoreBoard}% in ${timescore} seconds`
 
-    let recordHeader = document.createElement('h3')
-    recordHeader.textContent = 'ENTER YOUR INITIALS:'
-    recordHeader.classList.add('record-header')
-    inputBox.appendChild(recordHeader)
+//ends quiz and produces input to record score 
+function endQuiz() {
+    clearInterval(time);
+    resetQuestion();
+    let scoreBoard = (score * 10);
+    let timescore = (59 - sec);
+    let playerScore = { scoreBoard, timescore };
+    displayQuestion.innerHTML = `All Done!\n You scored ${scoreBoard}% in ${timescore} seconds`;
+
+    let recordHeader = document.createElement("h3");
+    recordHeader.textContent = "ENTER YOUR INITIALS:";
+    recordHeader.classList.add("record-header");
+    inputBox.appendChild(recordHeader);
 
     let recorder = document.createElement("input");
-    // recorder.textContent = answer.text;
     recorder.classList.add("initials");
-    inputBox.appendChild(recorder)
+    inputBox.appendChild(recorder);
     var initials = recorder.value.trim();
-    // console.log(initials)
 
     let submitScore = document.createElement("button");
-    submitScore.textContent = 'Submit';
+    submitScore.textContent = "Submit";
     submitScore.classList.add("submit-score");
-    inputBox.appendChild(submitScore)
+    inputBox.appendChild(submitScore);
     submitScore.addEventListener('click', () => {
         var initials = recorder.value.trim();
-        playerScore.initials = initials
-        console.log(initials,playerScore)
-        var previousScore = JSON.parse(localStorage.getItem("CodeQuiz") )|| []
-        previousScore.push(playerScore)
-        localStorage.setItem("CodeQuiz", JSON.stringify(previousScore))
-        showScore()
+        playerScore.initials = initials;
+        console.log(initials, playerScore);
+        var previousScore = JSON.parse(localStorage.getItem("CodeQuiz")) || [];
+        previousScore.push(playerScore);
+        localStorage.setItem("CodeQuiz", JSON.stringify(previousScore));
+        showScore();
     })
 }
 
 
 
-
+//shows previous scores and organizes them 
 function showScore() {
-    quiz.classList.add('hide')
-    scorePage.classList.remove('hide');
-    var OldScore = JSON.parse(localStorage.getItem("CodeQuiz")) || []
-    var previousScore = []
-    for(let i=0;i<OldScore.length;i++){
-        for(let j=0;j<OldScore.length-1;j++){
-            if(OldScore[i].scoreBoard > OldScore[j].scoreBoard){
+    quiz.classList.add("hide");
+    scorePage.classList.remove("hide");
+    var OldScore = JSON.parse(localStorage.getItem("CodeQuiz")) || [];
+    var previousScore = [];
+    for (let i = 0; i < OldScore.length; i++) {
+        for (let j = 0; j < OldScore.length - 1; j++) {
+            if (OldScore[i].scoreBoard > OldScore[j].scoreBoard) {
                 let temp = OldScore[i]
                 OldScore[i] = OldScore[j]
                 OldScore[j] = temp
-            }
-        }
+            };
+        };
+    };
+    previousScore = OldScore;
+    var highScores = document.getElementById("high-scores");
+    var htmlCode = "";
+    for (i = 0; i < previousScore.length; i++) {
+        htmlCode += `<li>${previousScore[i].initials} - Score: ${previousScore[i].scoreBoard} Time: ${previousScore[i].timescore} seconds</li>`
     }
-    previousScore = OldScore
-    var highScores = document.getElementById("high-scores")
-    var htmlCode =""
-    for (i=0; i<previousScore.length; i++){
-        htmlCode += `<li>${previousScore[i].initials}</li><ol><li>ScoreBoard: ${previousScore[i].scoreBoard}</li>
-        <li>TimeScore: ${previousScore[i].timescore}</li></ol>`
-    }
-    console.log(previousScore)
-    highScores.innerHTML = htmlCode
-    // var initialsForm = document.getElementById('initials');
-    // var initials = initialsForm.value.trim();
-    // console.log(initials)
-}
-//}
+    console.log(previousScore);
+    highScores.innerHTML = htmlCode;
+};
 
-tryAgain.addEventListener('click', () => {
-    resetTest()
-    startQuiz()
+//button to try again 
+tryAgain.addEventListener("click", () => {
+    resetTest();
+    startQuiz();
 })
 
+//button clears local storage and refreshes page
+clear.addEventListener('click', () =>{
+    localStorage.clear()
+    showScore();
+})
+
+
+
+//function resets the test and removes input box 
 function resetTest() {
     while (answerButtons.firstChild) {
         answerButtons.removeChild(answerButtons.firstChild);
     }
     while (inputBox.firstChild) {
-        inputBox.removeChild(inputBox.firstChild)
+        inputBox.removeChild(inputBox.firstChild);
     }
-    scorePage.classList.add('hide')
+    scorePage.classList.add("hide");
 }
