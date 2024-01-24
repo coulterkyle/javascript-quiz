@@ -113,6 +113,7 @@ const scorePage = document.getElementById('scores')
 const tryAgain = document.getElementById('try-again')
 const seeScores = document.getElementById('show-scores')
 const clear = document.getElementById('clear')
+const timer = document.getElementById('timer')
 
 //event listener that calls the startQuiz function on 'click'
 startButton.addEventListener("click", startQuiz)
@@ -129,9 +130,9 @@ function startQuiz() {
     score = 0;
 
     welcome.classList.add('hide');
-    quiz.classList.remove('hide')
-    setTimer()
-    displayQuestions()
+    quiz.classList.remove('hide');
+    setTimer();
+    displayQuestions();
 
 }
 
@@ -139,7 +140,7 @@ function startQuiz() {
 function setTimer() {
     sec = 59;
     time = setInterval(function () {
-        document.getElementById('timer').innerHTML = sec;
+        timer.innerHTML = sec;
         sec--;
         if (sec <= -1) {
             endQuiz();
@@ -218,12 +219,15 @@ function endQuiz() {
     inputBox.appendChild(submitScore);
     submitScore.addEventListener('click', () => {
         var initials = recorder.value.trim();
+        if (!initials){
+            alert('You must enter your initials!')
+        } else {
         playerScore.initials = initials;
         console.log(initials, playerScore);
         var previousScore = JSON.parse(localStorage.getItem("CodeQuiz")) || [];
         previousScore.push(playerScore);
         localStorage.setItem("CodeQuiz", JSON.stringify(previousScore));
-        showScore();
+        showScore();}
     })
 }
 
@@ -246,18 +250,16 @@ function showScore() {
     };
     previousScore = OldScore;
     var highScores = document.getElementById("high-scores");
-    var htmlCode = "";
+    var leaderBoard = "";
     for (i = 0; i < previousScore.length; i++) {
-        htmlCode += `<li>${previousScore[i].initials} - Score: ${previousScore[i].scoreBoard} Time: ${previousScore[i].timescore} seconds</li>`
+        leaderBoard += `<li>${previousScore[i].initials} - Score: ${previousScore[i].scoreBoard} Time: ${previousScore[i].timescore} seconds</li>`
     }
-    console.log(previousScore);
-    highScores.innerHTML = htmlCode;
+    highScores.innerHTML = leaderBoard;
 };
 
 //button to try again 
 tryAgain.addEventListener("click", () => {
     resetTest();
-    startQuiz();
 })
 
 //button clears local storage and refreshes page
@@ -268,7 +270,7 @@ clear.addEventListener('click', () =>{
 
 
 
-//function resets the test and removes input box 
+//function resets the test and removes input box, resets clock to 60
 function resetTest() {
     while (answerButtons.firstChild) {
         answerButtons.removeChild(answerButtons.firstChild);
@@ -277,4 +279,7 @@ function resetTest() {
         inputBox.removeChild(inputBox.firstChild);
     }
     scorePage.classList.add("hide");
+    welcome.classList.remove('hide');
+    sec = 60
+    timer.innerHTML = sec
 }
